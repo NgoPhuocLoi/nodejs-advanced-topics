@@ -5,6 +5,7 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const keys = require("./config/keys");
+const { connectRedis } = require("./redis/redisClient");
 
 require("./models/User");
 require("./models/Blog");
@@ -27,6 +28,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+connectRedis();
 
 require("./routes/authRoutes")(app);
 require("./routes/blogRoutes")(app);
