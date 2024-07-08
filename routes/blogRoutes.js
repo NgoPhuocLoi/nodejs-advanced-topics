@@ -17,7 +17,7 @@ module.exports = (app) => {
   app.get("/api/blogs", requireLogin, async (req, res) => {
     const cachedBlogs = await client.get(req.user.id);
     if (cachedBlogs) {
-      console.log("Cached posts", cachedBlogs);
+      console.log("CAHCED");
       return res.send(JSON.parse(cachedBlogs));
     }
     const blogs = await Blog.find({ _user: req.user.id });
