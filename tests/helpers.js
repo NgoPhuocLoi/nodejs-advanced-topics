@@ -1,3 +1,6 @@
+const mongoose = require("mongoose");
+const User = mongoose.model("User");
+
 const generateFakeSessionForUserWithId = (userId) => {
   const { Buffer } = require("buffer");
   const Keygrip = require("keygrip");
@@ -17,6 +20,12 @@ const generateFakeSessionForUserWithId = (userId) => {
   return { session, sessionSig };
 };
 
+const generateUser = async () => {
+  const newUser = await User.create({});
+  return newUser;
+};
+
 module.exports = {
   generateFakeSessionForUserWithId,
+  generateUser,
 };
