@@ -21,7 +21,7 @@ test("Should start a browser and access localhost:3000", async () => {
   const headerText = await page.$eval("a.brand-logo", (el) => el.innerText);
 
   expect(headerText).toEqual("Blogster");
-}, 10000);
+});
 
 test("Shoud start the OAuth flow by clicking the Login button", async () => {
   await Promise.all([
@@ -31,7 +31,7 @@ test("Shoud start the OAuth flow by clicking the Login button", async () => {
   const url = page.url();
 
   expect(url).toMatch(/accounts\.google\.com/);
-}, 10000);
+});
 
 test("Shoud see the Logout button after login", async () => {
   await page.login();
@@ -42,4 +42,4 @@ test("Shoud see the Logout button after login", async () => {
   });
 
   expect(logoutButtonText).toEqual("Logout");
-}, 10000);
+});

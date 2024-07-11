@@ -42,9 +42,10 @@ class CustomPage {
     this.page = page;
   }
 
-  async login() {
+  async login(options) {
     const newUser = await generateUser();
     const userId = newUser._id.toString();
+    const redirectUrl = options?.redirectUrl || "http://localhost:3000";
 
     const { session, sessionSig } = generateFakeSessionForUserWithId(userId);
 
@@ -55,7 +56,7 @@ class CustomPage {
 
     await Promise.all([
       this.page.waitForSelector('a[href="/auth/logout"]'),
-      this.page.reload(),
+      this.page.goto(redirectUrl),
     ]);
   }
 }
