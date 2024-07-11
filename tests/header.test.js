@@ -1,23 +1,18 @@
 const puppeteer = require("puppeteer");
 const { generateFakeSessionForUserWithId, generateUser } = require("./helpers");
-
+const Page = require("./customPage");
 // Setup
 
-let browser, page;
+let page;
 
 beforeEach(async () => {
-  browser = await puppeteer.launch({
-    product: "firefox",
-    protocol: "webDriverBiDi",
-    // headless: false,
-  });
-  page = await browser.newPage();
+  page = await Page.build();
 
   await page.goto("http://localhost:3000");
 });
 
 afterEach(async () => {
-  await browser.close();
+  await page.close();
 });
 
 // ---
@@ -39,20 +34,7 @@ test("Shoud start the OAuth flow by clicking the Login button", async () => {
 }, 10000);
 
 test("Shoud see the Logout button after login", async () => {
-  const newUser = await generateUser();
-  const userId = newUser._id.toString();
-
-  const { session, sessionSig } = generateFakeSessionForUserWithId(userId);
-
-  await page.setCookie(
-    { name: "session", value: session },
-    { name: "session.sig", value: sessionSig }
-  );
-
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: "load" }),
-    page.reload(),
-  ]);
+  await page.login();
 
   const logoutButtonText = await page.$$eval("ul.right li", (els) => {
     console.log({ els });
