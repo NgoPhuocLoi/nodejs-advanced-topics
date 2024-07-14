@@ -4,6 +4,7 @@ node_js:
 dist: jammy
 services:
   - redis-server
+  - xvfb
 env:
   global:
     - NODE_ENV=ci
