@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+  - "8"
+dist: trusty
+services:
+  - redis-server
+env:
+  global:
+    - NODE_ENV=ci
+    - MONGO_URI="mongodb+srv://phuocloi11223:0796863758loi@cluster0.0srh0.mongodb.net/nodejs-advanced-topics?retryWrites=true&w=majority&appName=Cluster0"
+    - GOOGLE_CLIENT_ID="70265989829-0t7m7ce5crs6scqd3t0t6g7pv83ncaii.apps.googleusercontent.com"
+    - GOOGLE_CLIENT_SECRET="8mkniDQOqacXtlRD3gA4n2az"
+    - COOKIE_KEY="123123123"
+    - PORT=3000
+cache:
+  directories:
+    - node_modules
+    - client/node_modules
+install:
+  - npm install
+  - npm run build
+script:
+  - nohup npm run start &
+  - sleep 3
+  - npm run test
