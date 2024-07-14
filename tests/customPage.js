@@ -51,13 +51,43 @@ class CustomPage {
 
     await this.page.setCookie(
       { name: "session", value: session },
-      { name: "session.sig", value: sessionSig }
+      { name: "session.sig", value: sessionSig },
     );
 
     await Promise.all([
       this.page.waitForSelector('a[href="/auth/logout"]'),
       this.page.goto(redirectUrl),
     ]);
+  }
+
+  async get(url) {
+    return this.page.evaluate(
+      (_url) =>
+        fetch(_url, {
+          method: "GET",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => res.json()),
+      url,
+    );
+  }
+
+  async post(url, body) {
+    return this.page.evaluate(
+      (_url, _body) =>
+        fetch(_url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(_body),
+        }).then((res) => res.json()),
+      url,
+      body,
+    );
   }
 }
 

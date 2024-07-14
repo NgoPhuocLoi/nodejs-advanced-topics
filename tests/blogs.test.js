@@ -1,4 +1,5 @@
 const Page = require("./customPage");
+const { apiService } = require("./helpers");
 
 let page;
 
@@ -32,11 +33,11 @@ describe("When logged in and click create new blog button", () => {
 
     const titleErrorText = await page.$eval(
       ".title .red-text",
-      (el) => el.innerText
+      (el) => el.innerText,
     );
     const contentErrorText = await page.$eval(
       ".content .red-text",
-      (el) => el.innerText
+      (el) => el.innerText,
     );
 
     expect(titleErrorText).toEqual("You must provide a value");
@@ -63,5 +64,22 @@ describe("When logged in and click create new blog button", () => {
 
       expect(page.url()).toEqual("http://localhost:3000/blogs");
     });
+  });
+});
+
+describe("When user is not authenticated", () => {
+  test("Should not be able to create a blog", async () => {
+    const result = await page.post("/api/blogs", {
+      title: "Five",
+      content: "Five",
+    });
+
+    expect(result.error).toEqual("You must log in!");
+  });
+
+  test("Should not be able to see the blogs", async () => {
+    const result = await page.get("/api/blogs");
+
+    expect(result.error).toEqual("You must log in!");
   });
 });

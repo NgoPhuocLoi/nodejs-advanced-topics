@@ -25,7 +25,28 @@ const generateUser = async () => {
   return newUser;
 };
 
+const apiService = {
+  async get(url) {
+    return fetch(url, {
+      method: "GET",
+      credentials: "same-origin",
+    }).then((res) => res.json());
+  },
+
+  async post(url, body) {
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(body),
+    }).then((res) => res.json());
+  },
+};
+
 module.exports = {
   generateFakeSessionForUserWithId,
   generateUser,
+  apiService,
 };
