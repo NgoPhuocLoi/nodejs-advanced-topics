@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - 22
-dist: trusty
+dist: jammy
 services:
   - redis-server
 env:
