@@ -3,10 +3,14 @@ const { generateUser, generateFakeSessionForUserWithId } = require("./helpers");
 
 class CustomPage {
   static async build() {
+    // const browser = await puppeteer.launch({
+    //   product: "firefox",
+    //   protocol: "webDriverBiDi",
+    //   //   headless: false,
+    // });
     const browser = await puppeteer.launch({
-      product: "firefox",
-      protocol: "webDriverBiDi",
-      //   headless: false,
+      args: ["--disable-setuid-sandbox", "--no-sandbox"],
+      dumpio: true,
     });
 
     const page = await browser.newPage();
